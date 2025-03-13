@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
 
     private Vector2 rotationInputs;
+
+    private bool visible;
     
     // Start is called before the first frame update
     void Start()
@@ -20,12 +22,20 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mainCamera = GetComponentInChildren<Camera>();
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        DisableCursor();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (visible)
+                DisableCursor();
+            else
+                EnableCursor();
+            visible = !visible;
+        }
+        
         rotationInputs += new Vector2( Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"))* sensitivity;
         rotationInputs.y = Mathf.Clamp(rotationInputs.y, -80, 80);
 
@@ -33,7 +43,20 @@ public class Player : MonoBehaviour
         var yQuat = Quaternion.AngleAxis(rotationInputs.y, Vector3.left);
 
         mainCamera.transform.localRotation = xQuat * yQuat;
-        
+    }
+    void EnableCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    void DisableCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void FixedUpdate()
+    {
         Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
         Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
         

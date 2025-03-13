@@ -1423,7 +1423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b3501d62c2473419405cee962d4c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 8
+  sensitivity: 2
   speed: 300
 --- !u!54 &461724219
 Rigidbody:
